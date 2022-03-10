@@ -11,6 +11,8 @@ router.get('/', (req, res) => {
     var io = req.app.get('socketio')
 
     io.on('connection', (socket) => {
+
+        //prevent duplicate msf from many sessions
         socket_id.push(socket.id);
         if (socket_id[0] === socket.id) {
             // remove the connection listener for any subsequent 
@@ -18,6 +20,7 @@ router.get('/', (req, res) => {
             io.removeAllListeners('connection');
         }
 
+        //update front msgs
         socket.on('chat message', (msg) => {
             io.emit('chat message', msg);
         });
