@@ -10,9 +10,11 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    console.log('a user is connected')
-})
-
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+});
 
 server.listen(3000, () => {
     console.log('listening on *:3000')
