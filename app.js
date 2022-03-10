@@ -43,12 +43,12 @@ mongoose.connect(
 // Security
 require('./express-sessions')(app)
 
-// Routes
-app.use('/', require('./controllers/index'))
 
 // ::::
 // Create your routes here
 // ::::
+app.use('/', require('./controllers/index'))
+
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
