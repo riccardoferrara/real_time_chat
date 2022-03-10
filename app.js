@@ -48,6 +48,7 @@ require('./express-sessions')(app)
 // Create your routes here
 // ::::
 app.use('/', require('./controllers/index'))
+app.use('/messages', require('./controllers/messages'))
 
 
 // Catch 404 and forward to error handler
