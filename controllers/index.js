@@ -5,7 +5,7 @@ const router = express.Router()
 
 // routes
 router.get('/', (req, res) => {
-    res.send('<h1>Hello world</h1>')
+    res.render('chat/chat')
 })
 
 module.exports = router
