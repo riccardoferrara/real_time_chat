@@ -13,8 +13,7 @@ router.get('/', async(req, res, next) => {
     let socket_id = [];
     var io = req.app.get('socketio')
 
-
-
+    //on user connection:
     io.on('connection', async(socket) => {
 
         //get all msgs from db
@@ -33,7 +32,7 @@ router.get('/', async(req, res, next) => {
             io.removeAllListeners('connection');
         }
 
-        //update front msgs
+        //update front real-time msgs
         socket.on('chat message', async(msg) => {
 
             // save msg to the db
@@ -41,7 +40,7 @@ router.get('/', async(req, res, next) => {
             msg_db = await Messages.create({ 'text': msg })
             if (msg_db) { console.log('msg created') }
 
-            // emit 
+            // emit realt-time msg
             io.emit('chat message', msg);
         });
     });
