@@ -7,15 +7,25 @@ const Messages = require('../models/messages')
 
 
 //control
-router.get('/', (req, res, next) => {
+router.get('/', async(req, res, next) => {
 
     // use socket.io
     let socket_id = [];
     var io = req.app.get('socketio')
 
-    io.on('connection', (socket) => {
 
-        //prevent duplicate msf from many sessions
+
+    io.on('connection', async(socket) => {
+
+        //get all msgs from db
+        let db_msgs = await Messages.find()
+        console.log(db_msgs)
+        db_msgs.forEach((msg, i) => {
+            console.log(`text_${i}:`, msg.txt)
+            io.emit('chat message', msg.text)
+        })
+
+        //prevent duplicate msgs from many sessions
         socket_id.push(socket.id);
         if (socket_id[0] === socket.id) {
             // remove the connection listener for any subsequent 
