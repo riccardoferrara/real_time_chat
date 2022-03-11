@@ -3,7 +3,7 @@ Here you can find a javascript real time chat build with built on
 - Express as MVC framework 
 - MongoDB as Database
 - Socket.io for messages broadcasting
-Here you can see a video: [real_time_chat](https://drive.google.com/file/d/1lb-fDXLd_L0BIlI7UcQz0te9Wn7yxuLm/view?usp=sharing)
+Here you can see a video: [real_time_chat](https://drive.google.com/file/d/1f_4DP2ff7EJcdZ87ppwKrlkA5Y3o09BY/view?usp=sharing)
 
 ## 1) pre-configuration (initialise a DB collection to stock the messages)
 1. Use your mongodb to create a new db (you can choose the name you want) 
