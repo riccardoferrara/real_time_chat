@@ -9,20 +9,13 @@ const Messages = require('../models/messages')
 //control
 router.get('/', async(req, res, next) => {
     try {
+
         // use socket.io
         let socket_id = [];
         var io = req.app.get('socketio')
 
         //on user connection:
         io.on('connection', async(socket) => {
-
-            //get all msgs from db
-            let db_msgs = await Messages.find().sort({ "create_date": 1 })
-            console.log(db_msgs)
-            db_msgs.forEach((msg, i) => {
-                console.log(`text_${i}:`, msg.txt)
-                io.emit('chat message', msg.text)
-            })
 
             //prevent duplicate msgs from many sessions
             socket_id.push(socket.id);
@@ -38,7 +31,7 @@ router.get('/', async(req, res, next) => {
                 // save msg to the db
                 console.log('msg: ', msg)
                 msg_db = await Messages.create({ 'text': msg })
-                if (msg_db) { console.log('msg created') }
+                if (msg_db) { console.log('msg created in db') }
 
                 // emit realt-time msg
                 io.emit('chat message', msg);
@@ -54,5 +47,21 @@ router.get('/', async(req, res, next) => {
 
 })
 
+//request to get all messages from db
+router.get('/db_messages', async(req, res, next) => {
+    try {
+        //get all msgs from db
+        //(API sends data to client-side)
+        res.setHeader("Content-Type", "application/json")
+        res.statusCode = 200;
+        let db_msgs = await Messages.find().sort({ "create_date": 1 })
+        if (db_msgs.length > 0) {
+            res.json(db_msgs)
+            console.log('db_msgs from api: ', db_msgs)
+        }
+    } catch {
+        next(err)
+    }
+})
 
 module.exports = router
