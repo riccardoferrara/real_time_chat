@@ -18,7 +18,7 @@ router.get('/', async(req, res, next) => {
     io.on('connection', async(socket) => {
 
         //get all msgs from db
-        let db_msgs = await Messages.find()
+        let db_msgs = await Messages.find().sort({ "create_date": 1 })
         console.log(db_msgs)
         db_msgs.forEach((msg, i) => {
             console.log(`text_${i}:`, msg.txt)
