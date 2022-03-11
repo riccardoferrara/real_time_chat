@@ -7,7 +7,7 @@ const Messages = require('../models/messages')
 
 
 //control
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
 
     // use socket.io
     let socket_id = [];
@@ -24,7 +24,14 @@ router.get('/', (req, res) => {
         }
 
         //update front msgs
-        socket.on('chat message', (msg) => {
+        socket.on('chat message', async(msg) => {
+
+            // save msg to the db
+            console.log('msg: ', msg)
+            msg_db = await Messages.create({ 'text': msg })
+            if (msg_db) { console.log('msg created') }
+
+            // emit 
             io.emit('chat message', msg);
         });
     });
